@@ -118,6 +118,69 @@ calendarRoutes.route('/calendar/create/all-day').post(async function(req, res) {
   }
 });
 
+calendarRoutes.route('/calendar/update-event').post(async function(req, res) {
+  const { title, date, notes, location } = req.body;
+
+  const queryResponse = await notion.databases.query({
+    database_id: databaseId,
+  });
+
+  const targetPage = queryResponse.results.find(page =>
+    // @ts-expect-error
+    page.properties.Name.title[0].text.content === req.body.query.name &&
+    // @ts-expect-error
+    page.properties.Date.date.start === req.body.query.date);
+
+  if (targetPage) {
+    const response = await notion.pages.update({
+      page_id: targetPage.id,
+      properties: {
+        title: {
+          title: [
+            {
+              text: {
+                content: title,
+              },
+            },
+          ],
+        },
+        Date: {
+          type: 'date',
+          date: {
+            start: date.start,
+            end: date.end,
+          },
+        },
+        Notes: {
+          type: 'rich_text',
+          rich_text: [
+            {
+              text: {
+                content: notes,
+              },
+            },
+          ],
+        },
+        Location: {
+          files: [
+            {
+              name: location.name,
+              type: 'external',
+              external: {
+                url: location.url,
+              },
+            },
+          ],
+        },
+      },
+    });
+    res.json(response);
+  }
+  else {
+    res.json({ message: 'invalid request' });
+  }
+});
+
 calendarRoutes.route('/calendar/delete-event').post(async function(req, res) {
   const queryResponse = await notion.databases.query({
     database_id: databaseId,
