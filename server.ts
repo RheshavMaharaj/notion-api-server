@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import 'dotenv/config';
-
+import bookJob from './jobs/books';
 const app = express();
 
 const port = process.env.PORT || 3000;
@@ -9,6 +9,9 @@ const port = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 app.use(require('./routes/calendar'));
+
+const seconds = 5;
+const interval = seconds * 1000;
 
 app.get('/', (req, res) => {
   const response = {
@@ -19,4 +22,5 @@ app.get('/', (req, res) => {
 
 app.listen(port, () => {
   console.log('The application is listening on port 3000!');
+  setInterval(bookJob, interval);
 });
