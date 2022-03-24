@@ -5,7 +5,8 @@ const calendarRoutes = express.Router();
 
 declare let process: {
   env: {
-    NOTION_CALENDAR_ID: string
+    NOTION_CALENDAR_ID: string,
+    HOME_LOCATION_URL: string,
   }
 };
 
@@ -46,10 +47,10 @@ calendarRoutes.route('/calendar/create/event').post(async function(req, res) {
       Location: {
         files: [
           {
-            name: location.name,
+            name: location.name.length === 0 ? 'Home' : location.name,
             type: 'external',
             external: {
-              url: location.url,
+              url: location.url.length === 0 ? process.env.HOME_LOCATION_URL : location.url,
             },
           },
         ],
@@ -99,10 +100,10 @@ calendarRoutes.route('/calendar/create/all-day').post(async function(req, res) {
       Location: {
         files: [
           {
-            name: location.name,
+            name: location.name.length === 0 ? 'Home' : location.name,
             type: 'external',
             external: {
-              url: location.url,
+              url: location.url.length === 0 ? process.env.HOME_LOCATION_URL : location.url,
             },
           },
         ],
@@ -164,10 +165,10 @@ calendarRoutes.route('/calendar/update-event').post(async function(req, res) {
         Location: {
           files: [
             {
-              name: location.name,
+              name: location.name.length === 0 ? 'Home' : location.name,
               type: 'external',
               external: {
-                url: location.url,
+                url: location.url.length === 0 ? process.env.HOME_LOCATION_URL : location.url,
               },
             },
           ],
