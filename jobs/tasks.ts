@@ -6,6 +6,7 @@ declare let process: {
   env: {
     NOTION_TASKS_DATABASE_ID: string,
     NOTION_STREAK_PAGE_ID: string,
+    NOTION_AC_TASKS_DATABASE_ID: string,
   }
 };
 
@@ -13,7 +14,7 @@ function createNewDate(date: Date): Moment {
   return moment(date).add(1, 'days').tz('Australia/Sydney');
 }
 
-async function tasksJob() {
+export async function tasksJob() {
   if (moment().weekday() >= 6) return;
   const databaseId = process.env.NOTION_TASKS_DATABASE_ID;
   const today = moment().startOf('day');
@@ -52,4 +53,34 @@ async function tasksJob() {
   }
 }
 
-export default tasksJob;
+export async function archiveJob() {
+  const databaseId = process.env.NOTION_AC_TASKS_DATABASE_ID;
+  const queryResponse = await notion.databases.query({
+    database_id: databaseId,
+    page_size: 100,
+    filter: {
+      or: [
+        {
+          property: 'Status',
+          select: {
+            equals: 'Done',
+          },
+        },
+      ],
+    },
+  });
+
+  for await (const result of queryResponse.results) {
+    await notion.pages.update({
+      page_id: result.id,
+      properties: {
+        Status: {
+          select: {
+            name: 'Archive ⏳',
+          },
+        },
+      },
+    });
+  }
+};
+
