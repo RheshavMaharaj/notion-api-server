@@ -12,7 +12,7 @@ declare let process: {
 
 const databaseId = process.env.NOTION_CALENDAR_ID;
 
-calendarRoutes.route('/calendar/create/event').post(async function(req, res) {
+calendarRoutes.route('/calendar/create/event').post(async (req, res) => {
   const { title, date, notes, location } = req.body;
 
   const response = await notion.pages.create({
@@ -66,7 +66,7 @@ calendarRoutes.route('/calendar/create/event').post(async function(req, res) {
   }
 });
 
-calendarRoutes.route('/calendar/create/all-day').post(async function(req, res) {
+calendarRoutes.route('/calendar/create/all-day').post(async (req, res) => {
   const { title, date, notes, location } = req.body;
 
   const response = await notion.pages.create({
@@ -119,7 +119,7 @@ calendarRoutes.route('/calendar/create/all-day').post(async function(req, res) {
   }
 });
 
-calendarRoutes.route('/calendar/update-event').post(async function(req, res) {
+calendarRoutes.route('/calendar/update-event').post(async (req, res) => {
   const { title, date, notes, location } = req.body;
 
   const queryResponse = await notion.databases.query({
@@ -182,7 +182,7 @@ calendarRoutes.route('/calendar/update-event').post(async function(req, res) {
   }
 });
 
-calendarRoutes.route('/calendar/delete-event').post(async function(req, res) {
+calendarRoutes.route('/calendar/delete-event').post(async (req, res) => {
   const queryResponse = await notion.databases.query({
     database_id: databaseId,
   });
