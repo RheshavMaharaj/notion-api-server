@@ -142,3 +142,5 @@ reminderRoutes.route('/reminders/delete').post(async (req, res) => {
       });
   });
 });
+
+module.exports = reminderRoutes;

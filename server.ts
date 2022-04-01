@@ -3,6 +3,7 @@ import cors from 'cors';
 import 'dotenv/config';
 import bookJob from './jobs/books';
 import { tasksJob, archiveJob } from './jobs/tasks';
+import path from 'path';
 const app = express();
 
 app.set('view engine', 'ejs');
@@ -14,6 +15,7 @@ app.use(express.json());
 app.use(require('./routes/calendar'));
 app.use(require('./routes/reminders'));
 app.use(require('./routes/widgets'));
+app.use('/styles', express.static(path.join(__dirname, '/styles')));
 
 const minutes = 10; // TODO RM: In Testing, using a smaller interval
 const interval = minutes * 1000; // TODO RM: Add minute modifier
