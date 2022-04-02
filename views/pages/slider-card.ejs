@@ -24,10 +24,10 @@
 
     /* Slideshow container */
     .slideshow-container {
-      max-width: 1000px;
       position: relative;
       margin: auto;
       border: none;
+      min-height: 400px;
     }
 
     /* Next & previous buttons */
@@ -102,6 +102,37 @@
       animation-duration: 1.5s;
     }
 
+    .card-content {
+      text-align: justify;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      font-size: 11;
+    }
+
+    .card {
+      /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); */
+      transition: 0.3s;
+      border-radius: 5px;
+      overflow: hidden;
+      align-items: center;
+      
+      /* 5px rounded corners */
+    }
+
+    /* Add rounded corners to the top left and the top right corner of the image */
+    img {
+      border-radius: 5px 5px 0 0;
+    }
+
+    /* On mouse-over, add a deeper shadow */
+    /* .card:hover {
+      box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    } */
+
+    /* Add some padding inside the card container */
+    .container {
+      padding: 2px 16px;
+    }
+
     @keyframes fade {
       from {
         opacity: .4
@@ -128,35 +159,23 @@
 
   <div class="slideshow-container">
 
-    <div class="mySlides fade">
-      <div class="numbertext">1 / 3</div>
-      <img src="img_nature_wide.jpg" style="width:100%">
-      <div class="text">Caption Text</div>
-    </div>
-
-    <div class="mySlides fade">
-      <div class="numbertext">2 / 3</div>
-      <img src="img_snow_wide.jpg" style="width:100%">
-      <div class="text">Caption Two</div>
-    </div>
-
-    <div class="mySlides fade">
-      <div class="numbertext">3 / 3</div>
-      <img src="img_mountains_wide.jpg" style="width:100%">
-      <div class="text">Caption Three</div>
-    </div>
+    <% cards.forEach(function(card) { %>
+      <div class="mySlides fade">
+        <div class="card">
+          <img src="<%= card.image %>" alt="Headline" style="width:100%">
+          <div class="container">
+            <h4><b><%= card.title %></b></h4>
+            <%= card.date %>
+          </div>
+        </div>
+      </div>
+    <% }); %>
 
     <a class="prev" onclick="plusSlides(-1)">❮</a>
     <a class="next" onclick="plusSlides(1)">❯</a>
 
   </div>
   <br>
-
-  <div style="text-align:center">
-    <span class="dot" onclick="currentSlide(1)"></span>
-    <span class="dot" onclick="currentSlide(2)"></span>
-    <span class="dot" onclick="currentSlide(3)"></span>
-  </div>
 
   <script>
     let slideIndex = 1;
