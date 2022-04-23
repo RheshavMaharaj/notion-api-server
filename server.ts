@@ -4,6 +4,7 @@ import 'dotenv/config';
 import bookJob from './jobs/books';
 import { tasksJob, archiveJob } from './jobs/tasks';
 import path from 'path';
+import trackJob from './jobs/music';
 const app = express();
 
 app.set('view engine', 'ejs');
@@ -29,6 +30,7 @@ app.get('/', (req, res) => {
 
 app.listen(port, () => {
   console.log('The application is listening on port 3000!');
+  setInterval(trackJob, interval);
   setInterval(bookJob, interval);
   setInterval(tasksJob, interval);
   setInterval(archiveJob, interval);
