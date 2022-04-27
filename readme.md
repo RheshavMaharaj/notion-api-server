@@ -2,7 +2,7 @@
 
 ## Features
 
-*   👩‍💼 **Appple-Notion**: Integrate your apple calendar and Reminders app via Shortcuts on iOS
+*   👩‍💼 **Apple-Notion**: Integrate your apple calendar and Reminders app via Shortcuts on iOS
 *   🚓 **Notion Automation**: Run daily automations to track daily changes
 
 ## Installation
